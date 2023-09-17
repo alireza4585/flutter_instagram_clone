@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   final VoidCallback show;
-  LoginScreen(this.show, {super.key});
+  SignupScreen(this.show, {super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final email = TextEditingController();
   FocusNode email_F = FocusNode();
   final password = TextEditingController();
   FocusNode password_F = FocusNode();
+  final passwordConfirme = TextEditingController();
+  FocusNode passwordConfirme_F = FocusNode();
+  final username = TextEditingController();
+  FocusNode username_F = FocusNode();
+  final bio = TextEditingController();
+  FocusNode bio_F = FocusNode();
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     email.dispose();
     password.dispose();
+    passwordConfirme.dispose();
+    username.dispose();
+    bio.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -28,18 +37,29 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(width: 96.w, height: 100.h),
+            SizedBox(width: 96.w, height: 10.h),
             Center(
               child: Image.asset('images/logo.jpg'),
             ),
-            SizedBox(height: 120.h),
+            SizedBox(width: 96.w, height: 70.h),
+            CircleAvatar(
+              radius: 34.r,
+              backgroundImage: AssetImage('images/person.png'),
+              backgroundColor: Colors.grey.shade200,
+            ),
+            SizedBox(height: 40.h),
             Textfild(email, email_F, 'Email', Icons.email),
+            SizedBox(height: 15.h),
+            Textfild(username, username_F, 'username', Icons.person),
+            SizedBox(height: 15.h),
+            Textfild(bio, bio_F, 'bio', Icons.abc),
             SizedBox(height: 15.h),
             Textfild(password, password_F, 'Password', Icons.lock),
             SizedBox(height: 15.h),
-            forget(),
+            Textfild(passwordConfirme, passwordConfirme_F, 'PasswordConfirme',
+                Icons.lock),
             SizedBox(height: 15.h),
-            login(),
+            Signup(),
             SizedBox(height: 15.h),
             Have()
           ],
@@ -55,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(
-            "Don't have account?  ",
+            "Don you have account?  ",
             style: TextStyle(
               fontSize: 14.sp,
               color: Colors.grey,
@@ -64,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
           GestureDetector(
             onTap: widget.show,
             child: Text(
-              "Sign up ",
+              "Login ",
               style: TextStyle(
                   fontSize: 15.sp,
                   color: Colors.blue,
@@ -76,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget login() {
+  Widget Signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Container(
@@ -88,28 +108,11 @@ class _LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(10.r),
         ),
         child: Text(
-          'Login',
+          'Sign up',
           style: TextStyle(
             fontSize: 23.sp,
             color: Colors.white,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Padding forget() {
-    return Padding(
-      padding: EdgeInsets.only(left: 230.w),
-      child: GestureDetector(
-        onTap: () {},
-        child: Text(
-          'Forgot password?',
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.blue,
-            fontWeight: FontWeight.w500,
           ),
         ),
       ),
