@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram_clone/data/firebase_service/firebase_auth.dart';
+import 'package:flutter_instagram_clone/util/exeption.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -99,20 +103,36 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget Signup() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      child: Container(
-        alignment: Alignment.center,
-        width: double.infinity,
-        height: 44.h,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Text(
-          'Sign up',
-          style: TextStyle(
-            fontSize: 23.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      child: InkWell(
+        onTap: () async {
+          try {
+            await Authentication().Signup(
+              email: email.text,
+              password: password.text,
+              passwordConfirme: passwordConfirme.text,
+              username: username.text,
+              bio: bio.text,
+              profile: File(''),
+            );
+          } on exceptions catch (e) {
+            print(e.message);
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          width: double.infinity,
+          height: 44.h,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(10.r),
+          ),
+          child: Text(
+            'Sign up',
+            style: TextStyle(
+              fontSize: 23.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -160,4 +180,30 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
+}
+
+Future<void> dialogBuilder(BuildContext context, String message) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text(
+          'Error',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+        ),
+        content: Text(message, style: TextStyle(fontSize: 17)),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Ok'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
