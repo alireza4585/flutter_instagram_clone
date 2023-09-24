@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram_clone/data/firebase_service/firebase_auth.dart';
+import 'package:flutter_instagram_clone/util/dialog.dart';
 import 'package:flutter_instagram_clone/util/exeption.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -115,7 +116,7 @@ class _SignupScreenState extends State<SignupScreen> {
               profile: File(''),
             );
           } on exceptions catch (e) {
-            print(e.message);
+            dialogBuilder(context, e.message);
           }
         },
         child: Container(
@@ -180,30 +181,4 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
-}
-
-Future<void> dialogBuilder(BuildContext context, String message) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text(
-          'Error',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-        ),
-        content: Text(message, style: TextStyle(fontSize: 17)),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Ok'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
