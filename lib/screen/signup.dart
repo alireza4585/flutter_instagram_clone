@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_instagram_clone/data/firebase_service/firebase_auth.dart';
 import 'package:flutter_instagram_clone/util/dialog.dart';
 import 'package:flutter_instagram_clone/util/exeption.dart';
+import 'package:flutter_instagram_clone/util/imagepicker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class _SignupScreenState extends State<SignupScreen> {
   FocusNode username_F = FocusNode();
   final bio = TextEditingController();
   FocusNode bio_F = FocusNode();
+  File? _imageFile;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -47,10 +49,31 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Image.asset('images/logo.jpg'),
             ),
             SizedBox(width: 96.w, height: 70.h),
-            CircleAvatar(
-              radius: 34.r,
-              backgroundImage: AssetImage('images/person.png'),
-              backgroundColor: Colors.grey.shade200,
+            InkWell(
+              onTap: () async {
+                File _imagefilee = await ImagePickerr().uploadImage('gallery');
+                setState(() {
+                  _imageFile = _imagefilee;
+                });
+              },
+              child: CircleAvatar(
+                radius: 36.r,
+                backgroundColor: Colors.grey,
+                child: _imageFile == null
+                    ? CircleAvatar(
+                        radius: 34.r,
+                        backgroundImage: AssetImage('images/person.png'),
+                        backgroundColor: Colors.grey.shade200,
+                      )
+                    : CircleAvatar(
+                        radius: 34.r,
+                        backgroundImage: Image.file(
+                          _imageFile!,
+                          fit: BoxFit.cover,
+                        ).image,
+                        backgroundColor: Colors.grey.shade200,
+                      ),
+              ),
             ),
             SizedBox(height: 40.h),
             Textfild(email, email_F, 'Email', Icons.email),
@@ -113,7 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
               passwordConfirme: passwordConfirme.text,
               username: username.text,
               bio: bio.text,
-              profile: File(''),
+              profile: _imageFile ?? File(''),
             );
           } on exceptions catch (e) {
             dialogBuilder(context, e.message);

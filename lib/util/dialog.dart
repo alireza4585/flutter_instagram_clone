@@ -7,11 +7,11 @@ Future<void> dialogBuilder(BuildContext context, String message) {
       return AlertDialog(
         title: const Text(
           'Error',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         content: Text(
           message,
-          style: const TextStyle(fontSize: 17),
+          style: const TextStyle(fontSize: 20),
         ),
         actions: [
           TextButton(
@@ -19,7 +19,7 @@ Future<void> dialogBuilder(BuildContext context, String message) {
               Navigator.of(context).pop();
             },
             child: const Text('Ok'),
-          )
+          ),
         ],
       );
     },
