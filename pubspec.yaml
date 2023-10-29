@@ -38,6 +38,7 @@ dependencies:
   cloud_firestore: ^4.9.2
   image_picker: ^1.0.4
   photo_manager: ^2.7.1
+  uuid: ^4.0.0
 
 dev_dependencies:
 
