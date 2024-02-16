@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram_clone/screen/add_screen.dart';
 import 'package:flutter_instagram_clone/screen/explor_screen.dart';
+import 'package:flutter_instagram_clone/screen/explore.dart';
 import 'package:flutter_instagram_clone/screen/home.dart';
 import 'package:flutter_instagram_clone/screen/profile_screen.dart';
 import 'package:flutter_instagram_clone/screen/reelsScreen.dart';
@@ -84,7 +85,7 @@ class _Navigations_ScreenState extends State<Navigations_Screen> {
         onPageChanged: onPageChanged,
         children: const [
           HomeScreen(),
-          ExplorScreen(),
+          ExploreScreen(),
           AddScreen(),
           ReelScreen(),
           ProfileScreen(),

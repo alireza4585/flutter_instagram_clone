@@ -109,58 +109,61 @@ class _AddPostScreenState extends State<AddPostScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 375.h,
-                child: GridView.builder(
-                  itemCount: _mediaList.isEmpty ? _mediaList.length : 1,
+          child: Container(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 375.h,
+                  child: GridView.builder(
+                    itemCount: _mediaList.isEmpty ? _mediaList.length : 1,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 1,
+                    ),
+                    itemBuilder: (context, index) {
+                      return _mediaList[indexx];
+                    },
+                  ),
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 40.h,
+                  color: Colors.white,
+                  child: Row(
+                    children: [
+                      SizedBox(width: 10.w),
+                      Text(
+                        'Recent',
+                        style: TextStyle(
+                            fontSize: 15.sp, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: _mediaList.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
+                    crossAxisCount: 3,
                     mainAxisSpacing: 1,
-                    crossAxisSpacing: 1,
+                    crossAxisSpacing: 2,
                   ),
                   itemBuilder: (context, index) {
-                    return _mediaList[indexx];
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          indexx = index;
+                          _file = path[index];
+                        });
+                      },
+                      child: _mediaList[index],
+                    );
                   },
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 40.h,
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    SizedBox(width: 10.w),
-                    Text(
-                      'Recent',
-                      style: TextStyle(
-                          fontSize: 15.sp, fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
-              GridView.builder(
-                shrinkWrap: true,
-                itemCount: _mediaList.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 1,
-                  crossAxisSpacing: 2,
-                ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        indexx = index;
-                        _file = path[index];
-                      });
-                    },
-                    child: _mediaList[index],
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

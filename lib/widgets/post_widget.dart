@@ -92,17 +92,13 @@ class PostWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Row(
                   children: [
-                    Text(
-                      snapshot['username'] + '  ',
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      snapshot['caption'],
-                      style: TextStyle(
-                        fontSize: 13.sp,
+                    Expanded(
+                      child: Text(
+                        snapshot['username'] + ' :  ' + snapshot['caption'],
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
