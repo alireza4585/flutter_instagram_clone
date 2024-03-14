@@ -116,6 +116,7 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
   int indexx = 0;
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: false,

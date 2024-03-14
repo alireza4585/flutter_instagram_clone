@@ -15,6 +15,7 @@ class _ReelScreenState extends State<ReelScreen> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: StreamBuilder(
           stream: _firestore

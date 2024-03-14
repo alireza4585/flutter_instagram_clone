@@ -33,6 +33,7 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: false,
