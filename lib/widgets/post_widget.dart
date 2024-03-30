@@ -146,7 +146,7 @@ class _PostWidgetState extends State<PostWidget> {
                               minChildSize: 0.2,
                               builder: (context, scrollController) {
                                 return Comment(
-                                    widget.snapshot['postId'], 'posts');
+                                    'posts', widget.snapshot['postId']);
                               },
                             ),
                           );
