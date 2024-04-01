@@ -10,7 +10,8 @@ import 'package:flutter_instagram_clone/widgets/post_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  String Uid;
+  ProfileScreen({super.key, required this.Uid});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -20,6 +21,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   int post_lenght = 0;
+  bool yourse = false;
+  List following = [];
+  bool follow = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdata();
+    if (widget.Uid == _auth.currentUser!.uid) {
+      setState(() {
+        yourse = true;
+      });
+    }
+  }
+
+  getdata() async {
+    DocumentSnapshot snap = await _firebaseFirestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .get();
+    following = (snap.data()! as dynamic)['following'];
+    if (following.contains(widget.Uid)) {
+      setState(() {
+        follow = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -31,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             slivers: [
               SliverToBoxAdapter(
                 child: FutureBuilder(
-                  future: Firebase_Firestor().getUser(),
+                  future: Firebase_Firestor().getUser(UID: widget.Uid),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
@@ -43,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               StreamBuilder(
                 stream: _firebaseFirestore
                     .collection('posts')
-                    .where('uid', isEqualTo: _auth.currentUser!.uid)
+                    .where('uid', isEqualTo: widget.Uid)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -184,18 +213,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 20.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 13.w),
-            child: Container(
-              alignment: Alignment.center,
-              height: 30.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5.r),
-                border: Border.all(color: Colors.grey.shade400),
+          Visibility(
+            visible: !follow,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 13.w),
+              child: GestureDetector(
+                onTap: () {
+                  if (yourse == false) {
+                    Firebase_Firestor().flollow(uid: widget.Uid);
+                    setState(() {
+                      follow = true;
+                    });
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 30.h,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: yourse ? Colors.white : Colors.blue,
+                    borderRadius: BorderRadius.circular(5.r),
+                    border: Border.all(
+                        color: yourse ? Colors.grey.shade400 : Colors.blue),
+                  ),
+                  child: yourse
+                      ? Text('Edit Your Profile')
+                      : Text(
+                          'Follow',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                ),
               ),
-              child: Text('Edit Your Profile'),
+            ),
+          ),
+          Visibility(
+            visible: follow,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 13.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        Firebase_Firestor().flollow(uid: widget.Uid);
+                        setState(() {
+                          follow = false;
+                        });
+                      },
+                      child: Container(
+                          alignment: Alignment.center,
+                          height: 30.h,
+                          width: 100.w,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(5.r),
+                            border: Border.all(color: Colors.grey.shade200),
+                          ),
+                          child: Text('Unfollow')),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 30.h,
+                      width: 100.w,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(5.r),
+                        border: Border.all(color: Colors.grey.shade200),
+                      ),
+                      child: Text(
+                        'Message',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 5.h),

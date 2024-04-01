@@ -159,7 +159,7 @@ class _ReelsItemState extends State<ReelsItem> {
                           initialChildSize: 0.6,
                           minChildSize: 0.2,
                           builder: (context, scrollController) {
-                            return Comment(widget.snapshot['postId'], 'reels');
+                            return Comment('reels', widget.snapshot['postId']);
                           },
                         ),
                       );

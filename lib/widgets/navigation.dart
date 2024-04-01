@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram_clone/screen/add_screen.dart';
@@ -19,6 +20,7 @@ int _currentIndex = 0;
 
 class _Navigations_ScreenState extends State<Navigations_Screen> {
   late PageController pageController;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     // TODO: implement initState
@@ -83,12 +85,14 @@ class _Navigations_ScreenState extends State<Navigations_Screen> {
       body: PageView(
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: const [
+        children: [
           HomeScreen(),
           ExploreScreen(),
           AddScreen(),
           ReelScreen(),
-          ProfileScreen(),
+          ProfileScreen(
+            Uid: _auth.currentUser!.uid,
+          ),
         ],
       ),
     );

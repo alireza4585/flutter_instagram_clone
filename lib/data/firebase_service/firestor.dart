@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_instagram_clone/data/model/usermodel.dart';
@@ -28,11 +30,11 @@ class Firebase_Firestor {
     return true;
   }
 
-  Future<Usermodel> getUser() async {
+  Future<Usermodel> getUser({String? UID}) async {
     try {
       final user = await _firebaseFirestore
           .collection('users')
-          .doc(_auth.currentUser!.uid)
+          .doc(UID != null ? UID : _auth.currentUser!.uid)
           .get();
       final snapuser = user.data()!;
       return Usermodel(
@@ -132,5 +134,40 @@ class Firebase_Firestor {
       res = e.toString();
     }
     return res;
+  }
+
+  Future<void> flollow({
+    required String uid,
+  }) async {
+    DocumentSnapshot snap = await _firebaseFirestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .get();
+    List following = (snap.data()! as dynamic)['following'];
+    try {
+      if (following.contains(uid)) {
+        _firebaseFirestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'following': FieldValue.arrayRemove([uid])
+        });
+        await _firebaseFirestore.collection('users').doc(uid).update({
+          'followers': FieldValue.arrayRemove([_auth.currentUser!.uid])
+        });
+      } else {
+        _firebaseFirestore
+            .collection('users')
+            .doc(_auth.currentUser!.uid)
+            .update({
+          'following': FieldValue.arrayUnion([uid])
+        });
+        _firebaseFirestore.collection('users').doc(uid).update({
+          'followers': FieldValue.arrayUnion([_auth.currentUser!.uid])
+        });
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
   }
 }
