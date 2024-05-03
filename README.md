@@ -26,6 +26,6 @@ Explore: Discover new users and content.
 
 This project was created by Alireza Mohammadian. Feel free to reach out with any questions or suggestions
 
-![1](https://github.com/alireza4585/flutter_instagram_clone/assets/102475069/30b021af-afca-4948-ba5d-3621182dea1a)
-
-![2](https://github.com/alireza4585/flutter_instagram_clone/assets/102475069/c5c666a8-d213-44ab-8377-92715b49f7a1)
+![1](https://github.com/alireza4585/flutter_instagram_clone/assets/102475069/0e9befdb-c358-4d57-b167-693c740c0eff)
+![2](https://github.com/alireza4585/flutter_instagram_clone/assets/102475069/ac503ae7-8e37-4360-808e-10d19b1dbc9d)
+![3](https://github.com/alireza4585/flutter_instagram_clone/assets/102475069/7594d7ea-07a1-4a8d-ab3b-032c1858a449)
